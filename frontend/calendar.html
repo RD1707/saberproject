@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adicionar Evento - Sistema SABER</title>
+  <link rel="stylesheet" href="styles/dashboard-style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Adicionar Evento</h1>
+    <form id="addEventForm">
+      <label for="title">Título do Evento:</label>
+      <input type="text" id="title" required>
+
+      <label for="start">Data e Hora de Início:</label>
+      <input type="datetime-local" id="start" required>
+
+      <label for="end">Data e Hora de Término:</label>
+      <input type="datetime-local" id="end" required>
+
+      <label for="description">Descrição (opcional):</label>
+      <textarea id="description" rows="3"></textarea>
+
+      <button type="submit">Adicionar Evento</button>
+    </form>
+
+    <a href="posdash.html">
+      <button style="text-align: center;">Voltar</button>
+    </a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('addEventForm');
+      
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const title = document.getElementById('title').value;
+        const start = document.getElementById('start').value;
+        const end = document.getElementById('end').value;
+        const description = document.getElementById('description').value;
+        
+        if (title && start && end) {
+          const newEvent = {
+            title: title,
+            start: start,
+            end: end,
+            extendedProps: {
+              description: description
+            }
+          };
+          
+          // Recupera eventos anteriores e adiciona o novo evento
+          const savedEvents = JSON.parse(localStorage.getItem('saberEvents') || '[]');
+          savedEvents.push(newEvent);
+          localStorage.setItem('saberEvents', JSON.stringify(savedEvents));
+          
+          // Redireciona para a dashboard
+          window.location.href = 'posdash.html';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

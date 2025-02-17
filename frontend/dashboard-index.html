@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema SABER - Gerar Relatórios</title>
+  <link rel="stylesheet" href="styles/dashboard-style.css">
+</head>
+<body>
+  <a href="escolha.html" class="back-button">Voltar</a>
+
+  <div class="container">
+    <header>
+      <h1>Sistema SABER</h1>
+      <p class="subtitle">Gerador de Relatórios</p>
+    </header>
+
+    <form id="form-relatorio">
+      <label for="nome-aluno">Nome do Aluno:</label>
+      <input type="text" id="nome-aluno" placeholder="Digite o nome do aluno" required>
+
+      <label for="turma">Turma:</label>
+      <select id="turma" required>
+        <option value="" disabled selected>Selecione a turma</option>
+        <option value="1° Ano">1° Ano</option>
+        <option value="2° Ano">2° Ano</option>
+        <option value="3° Ano">3° Ano</option>
+      </select>
+
+      <label for="materia">Matéria:</label>
+      <select id="materia" required>
+        <option value="" disabled selected>Selecione a matéria</option>
+        <option value="Português">Português</option>
+        <option value="Matemática">Matemática</option>
+        <option value="História">História</option>
+        <option value="Geografia">Geografia</option>
+        <option value="Biologia">Biologia</option>
+        <option value="Química">Química</option>
+        <option value="Física">Física</option>
+        <option value="Filosofia">Filosofia</option>
+        <option value="Artes">Artes</option>
+        <option value="Educação Física">Educação Física</option>
+        <option value="Inglês">Inglês</option>
+      </select>
+
+      <label for="atividade">Atividade:</label>
+      <input type="text" id="atividade" placeholder="Digite o nome da atividade" required>
+
+      <label for="pergunta">Pergunta:</label>
+      <textarea id="pergunta" placeholder="Digite a pergunta" required></textarea>
+
+      <label for="resposta">Resposta:</label>
+      <textarea id="resposta" placeholder="Digite a resposta" required></textarea>
+
+      <button type="submit" class="primary-button">Gerar Relatório</button>
+    </form>
+
+    <div id="loading" class="loading" style="display: none;">
+      <div class="spinner"></div>
+      <p>Gerando relatório...</p>
+    </div>
+  </div>
+
+  <script src="scripts/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - SABER</title>
+  <link rel="stylesheet" href="styles/posdash-style.css">
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.css" rel="stylesheet">
+
+</head>
+<body>
+  <div class="container">
+    <!-- Menu Lateral -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>SABER</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="#" id="btn-relatorios">Relatórios</a></li>
+          <li><a href="#" id="btn-configuracoes">Configurações</a></li>
+          <li><a href="#" id="voltar-escolha">Voltar</a></li>
+          <li><a href="#" id="sair-conta">Sair</a></li>
+        </ul>        
+      </nav>
+    </aside>
+
+    <!-- Área Principal -->
+    <main class="main-content">
+      <header>
+        <h1>Bem-vindo à Dashboard do SABER</h1>
+      </header>
+
+      <section class="overview">
+        <h2>Visão Geral</h2>
+        <div class="cards">
+          <div class="card">
+            <h3>Relatórios Gerados</h3>
+            <p id="relatorios-gerados-count">0 relatórios gerados</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="recent-activities">
+        <h2>Atividades Recentes</h2>
+        <ul id="atividades-recentes">
+          <!-- Atividades serão carregadas dinamicamente aqui -->
+        </ul>
+      </section>
+
+      <!-- Seção de Relatórios (Oculta Inicialmente) -->
+      <!-- Seção de Relatórios (Agora com filtros) -->
+<section id="relatorios" style="display: none;">
+  <h2>Relatórios Gerados</h2>
+
+  <!-- Filtros -->
+  <div class="filtros">
+    <label for="filtro-materia">Matéria:</label>
+    <select id="filtro-materia">
+      <option value="">Todas</option>
+      <option value="Matemática">Matemática</option>
+      <option value="Português">Português</option>
+      <option value="História">História</option>
+      <option value="Ciências">Ciências</option>
+    </select>
+
+    <label for="filtro-aluno">Aluno:</label>
+    <input type="text" id="filtro-aluno" placeholder="Nome do aluno">
+
+    <label for="filtro-data">Data:</label>
+    <input type="date" id="filtro-data">
+
+    <button id="aplicar-filtros">Aplicar Filtros</button>
+  </div>
+  <br>
+
+  
+  <div id="lista-relatorios">
+    <!-- Relatórios serão carregados dinamicamente aqui -->
+  </div>
+</section>
+
+
+      <!-- Seção de Configurações (Oculta Inicialmente) -->
+      <section id="configuracoes" style="display: none;">
+        <h2>Configurações</h2>
+        <p>Ajustes do sistema aqui...</p>
+      </section>
+
+    </main>
+  </div>
+  <script src="scripts/posdash-scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.10.2/dist/fullcalendar.min.js"></script>
+</body>
+</html>

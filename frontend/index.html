@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SABER - Sistema de Análise Educacional</title>
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+  <div class="container">
+    
+    <header>
+      <center><h1>SABER - Sistema de Análise Educacional</h1></center>
+    </header>
+
+    <section class="login-section">
+      <h2>Login</h2>
+      <br>
+      <form id="login-form">
+        <label for="username">Usuário:</label>
+        <input type="text" id="username" name="username" placeholder="Digite seu e-mail ou CPF" required>
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+        <button type="submit">Entrar</button>
+      </form>
+      <p id="login-message" style="color: red; margin-top: 10px;"></p>
+    </section>
+
+    <center><p style="color: white;">Não tem uma conta? <a style="color: rgb(95, 92, 255);" href="register.html">Registre-se aqui</a>.</p></center>
+
+    <center><footer>
+      <p>&copy; 2025 SABER - Todos os direitos reservados.</p>
+    </footer></center>
+  </div>
+
+  <script>
+    document.getElementById('login-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  fetch('http://localhost:5000/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ username, password })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
+      localStorage.setItem('usuario_id', data.usuario_id);
+
+      window.location.href = 'escolha.html';
+    } else {
+      document.getElementById('login-message').textContent = data.message;
+    }
+  })
+  .catch(error => {
+    console.error('Erro:', error);
+    document.getElementById('login-message').textContent = 'Erro ao conectar ao servidor.';
+  });
+});
+  </script>
+</body>
+</html>

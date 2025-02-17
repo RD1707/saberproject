@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatório Salvo - Sistema SABER</title>
+  <link rel="stylesheet" href="styles/relatorio-salvo-style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Relatório Salvo</h1>
+    <div id="relatorio-detalhes">
+      <p><strong>Nome do Aluno:</strong> <span id="nome-aluno"></span></p>
+      <p><strong>Turma:</strong> <span id="turma"></span></p>
+      <p><strong>Matéria:</strong> <span id="materia"></span></p>
+      <p><strong>Atividade:</strong> <span id="atividade"></span></p>
+      <p><strong>Pergunta:</strong> <span id="pergunta"></span></p>
+      <p><strong>Resposta:</strong> <span id="resposta"></span></p>
+      <p><strong>Relatório:</strong> <span id="relatorio"></span></p>
+    </div>
+    <button id="fechar-relatorio" class="primary-button">Fechar Relatório</button>
+    
+    <!-- Sugestões de Vídeos do YouTube -->
+    <div id="youtube-suggestions">
+      <br>
+      <h2>Sugestões de Vídeos</h2>
+      <div id="videos-container"></div>
+    </div>
+  </div>
+  
+  <script>
+    // Função para carregar os detalhes do relatório salvo
+    function carregarRelatorio() {
+      const relatorioSalvo = JSON.parse(localStorage.getItem('relatorioSalvo'));
+      
+      if (relatorioSalvo) {
+        document.getElementById('nome-aluno').textContent = relatorioSalvo.nome_aluno || '';
+        document.getElementById('turma').textContent = relatorioSalvo.turma || '';
+        document.getElementById('materia').textContent = relatorioSalvo.materia || '';
+        document.getElementById('atividade').textContent = relatorioSalvo.atividade || '';
+        document.getElementById('pergunta').textContent = relatorioSalvo.pergunta || '';
+        document.getElementById('resposta').textContent = relatorioSalvo.resposta || '';
+        document.getElementById('relatorio').textContent = relatorioSalvo.relatorio || '';
+      } else {
+        // Se não houver dados, redireciona para a página de geração de relatórios
+        alert("Nenhum relatório encontrado. Redirecionando para a página de geração de relatórios.");
+        window.location.href = 'dashboard-index.html';
+      }
+    }
+
+    // Função para buscar sugestões de vídeos do YouTube utilizando pergunta e matéria
+    function getYoutubeSuggestions(pergunta, materia) {
+      const apiKey = 'AIzaSyD3jFrnE7SaPy_oxx8mpFNg_yUNgPW0Zt8';
+      const maxResults = 6;
+      // Constrói a query de busca combinando pergunta e matéria com termos relevantes
+      const searchQuery = `${pergunta} ${materia} explicação aula ensino`;
+      
+      const apiUrl = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&q=${encodeURIComponent(searchQuery)}&part=snippet&type=video&maxResults=${maxResults}`;
+      
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const videosContainer = document.getElementById('videos-container');
+          videosContainer.innerHTML = ''; // Limpa resultados anteriores
+      
+          if (data.items && data.items.length > 0) {
+            data.items.forEach(item => {
+              const videoId = item.id.videoId;
+              const title = item.snippet.title;
+              const thumbnail = item.snippet.thumbnails.medium.url;
+              const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+      
+              const videoCard = document.createElement('div');
+              videoCard.classList.add('video-card');
+              videoCard.innerHTML = `
+                <a href="${videoUrl}" target="_blank">
+                  <img src="${thumbnail}" alt="${title}">
+                  <p>${title}</p>
+                </a>
+              `;
+              videosContainer.appendChild(videoCard);
+            });
+          } else {
+            videosContainer.textContent = 'Nenhum vídeo encontrado para esta pergunta.';
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao buscar vídeos:', error);
+        });
+    }
+
+    // Ao carregar a página, carrega o relatório e busca sugestões de vídeos
+    document.addEventListener('DOMContentLoaded', function() {
+      carregarRelatorio();
+
+      const relatorioSalvo = JSON.parse(localStorage.getItem('relatorioSalvo'));
+      if (relatorioSalvo && relatorioSalvo.pergunta && relatorioSalvo.materia) {
+        console.log("Buscando vídeos para a pergunta e matéria:", relatorioSalvo.pergunta, relatorioSalvo.materia);
+        getYoutubeSuggestions(relatorioSalvo.pergunta, relatorioSalvo.materia);
+      }
+
+      // Evento para o botão "Fechar Relatório"
+      document.getElementById('fechar-relatorio').addEventListener('click', function() {
+        localStorage.removeItem('relatorioSalvo');
+        window.location.href = 'dashboard-index.html';
+      });
+    });
+  </script>
+</body>
+</html>
